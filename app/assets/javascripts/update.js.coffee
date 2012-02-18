@@ -4,7 +4,8 @@ jQuery $ ->
   $("html").removeClass("no-js").addClass("js")
 
   # convert update's time to time ago format
-  $(".timeago").timeago()
+  $(".timeago").livequery ->
+    $(@).timeago()
 
   textarea = $("#update-form textarea")
   update_field = $("#update-form #update-referral")
