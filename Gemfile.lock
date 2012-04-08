@@ -282,6 +282,8 @@ GEM
       multi_json (~> 1.0.0)
       multi_xml (~> 0.2.0)
       simple_oauth (~> 0.1.5)
+    twitter-text (1.4.17)
+      activesupport
     tzinfo (0.3.29)
     uglifier (1.0.0)
       execjs (>= 0.3.0)
@@ -338,6 +340,7 @@ DEPENDENCIES
   show_me_the_cookies
   simplecov (~> 0.4.0)
   twitter
+  twitter-text
   tzinfo
   uglifier
   unicorn

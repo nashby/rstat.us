@@ -4,6 +4,9 @@ class Update
   require 'cgi'
   include MongoMapper::Document
 
+  # Include methods for extraction mentions and hashtags
+  include Twitter::Extractor
+
   # Determines what constitutes a username inside an update text
   USERNAME_REGULAR_EXPRESSION = /(^|[ \t\n\r\f"'\(\[{]+)@([^ \t\n\r\f&?=@%\/\#]*[^ \t\n\r\f&?=@%\/\#.!:;,"'\]}\)])(?:@([^ \t\n\r\f&?=@%\/\#]*[^ \t\n\r\f&?=@%\/\#.!:;,"'\]}\)]))?/
 
@@ -62,8 +65,7 @@ class Update
   end
 
   def mentioned?(username)
-    matches = text.match(/@#{username}\b/)
-    matches.nil? ? false : matches.length > 0
+    extract_mentioned_screen_names(text).include?(username)
   end
 
   # These handle sending the update to other nodes and services
@@ -77,7 +79,7 @@ class Update
   end
 
   def get_tags
-    self[:tags] = self.text.scan(/#([\w\-\.]*)/).flatten
+    self[:tags] = extract_hashtags(text)
   end
 
   # Return OStatus::Entry instance describing this Update
